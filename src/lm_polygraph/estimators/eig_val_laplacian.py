@@ -95,3 +95,11 @@ class EigValLaplacian(Estimator):
                 print(f"generated answers: {answers}")
             res.append(self.U_EigVal_Laplacian(i, stats))
         return np.array(res)
+
+
+class EigValLaplacianJaccard(EigValLaplacian):
+    def __init__(self):
+        super().__init__("Jaccard_score")
+
+    def __str__(self):
+        return f"EigValLaplacian_Jaccard"

@@ -72,3 +72,11 @@ class LexicalSimilarity(Estimator):
                     sims.append(self._score_single(texts[i], texts[j]))
             res.append(-np.mean(sims))
         return np.array(res)
+
+
+class LexicalSimilarityBLEU(LexicalSimilarity):
+    def __init__(self):
+        super().__init__("BLEU")
+
+    def __str__(self):
+        return f"LexicalSimilarity_BLEU"
