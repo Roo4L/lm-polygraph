@@ -101,6 +101,7 @@ class BlackboxModel(Model):
         model_path: str = None,
         hf_api_token: str = None,
         parameters: GenerationParameters = GenerationParameters(),
+        system_message: str = ""
     ):
         """
         Parameters:
@@ -115,6 +116,7 @@ class BlackboxModel(Model):
         self.openai_api_key = openai_api_key
         self.openai_client = OpenAI(api_key=openai_api_key)
         self.hf_api_token = hf_api_token
+        self.system_message = system_message
 
     def _query(self, payload):
         API_URL = f"https://api-inference.huggingface.co/models/{self.model_path}"
@@ -175,7 +177,10 @@ class BlackboxModel(Model):
             for prompt in input_texts:
                 response = self.openai_client.chat.completions.create(
                     model=self.model_path,
-                    messages=[{"role": "user", "content": prompt}],
+                    messages=[
+                        {"role": "system", "content": self.system_message},
+                        {"role": "user", "content": prompt},
+                    ],
                     **args,
                 )
                 if args["n"] == 1:
